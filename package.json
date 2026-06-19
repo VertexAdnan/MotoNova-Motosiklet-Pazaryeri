@@ -1,0 +1,46 @@
+{
+  "name": "vnframework",
+  "module": "index.ts",
+  "type": "module",
+  "private": true,
+  "scripts": {
+    "dev": "concurrently -k -n server,client,css \"bun run dev:server\" \"bun run dev:client\" \"bun run dev:css\"",
+    "dev:server": "bun --env-file=.env --watch src/server.tsx",
+    "dev:client": "bun --watch scripts/build-client-dev.ts",
+    "dev:css": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/globals.css --watch",
+    "start": "bun manager.ts",
+    "prod": "bun run build && bun run start",
+    "build": "bun run css:build && bun build.ts",
+    "css:build": "tailwindcss -i ./src/styles/tailwind.css -o ./public/css/globals.css --minify",
+    "catalog:sync": "bun scripts/sync-motorcycle-catalog.ts",
+    "db:generate": "bun --env-file=.env x drizzle-kit generate",
+    "db:migrate": "bun --env-file=.env x drizzle-kit migrate",
+    "db:push": "bun --env-file=.env x drizzle-kit push --force",
+    "db:studio": "bun --env-file=.env x drizzle-kit studio"
+  },
+  "devDependencies": {
+    "@tailwindcss/cli": "^4.2.2",
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/bun": "^1.3.10",
+    "@types/mssql": "^9.1.9",
+    "@types/node": "^24.3.0",
+    "@types/react": "^19.2.14",
+    "@types/react-dom": "^19.2.3",
+    "concurrently": "^9.2.1",
+    "drizzle-kit": "^0.31.9",
+    "tailwindcss": "^4.2.2"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "better-sqlite3": "^12.6.2",
+    "drizzle-orm": "^0.45.1",
+    "mongodb": "^7.1.0",
+    "mssql": "^12.2.0",
+    "mysql2": "^3.18.2",
+    "postgres": "^3.4.8",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}
